@@ -5,15 +5,36 @@ import './App.css';
 
 const App = () => {
   const [apiData, setApiData] = useState([])
-  const url = 'https://kitsu.io/api/edge/trending/anime'
+  const url =
+    'https://xeno-canto.org/api/2/recordings?query=cnt:brazil'
 
-  useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => {
-        setApiData(json.data)
-      })
-  }, [])
+  // useEffect(() => {
+  //   fetch(url)
+  //     .then((res) => res.json())
+  //     .then((json) => {
+  //       setApiData(json)
+  //     })
+  // }, [apiData])
+
+  let headers = new Headers()
+  headers.append('Content-Type', 'application/json')
+  headers.append('Accept', 'application/json')
+  headers.append('Origin', 'http://localhost:3000')
+  
+    useEffect(() => {
+        fetch(url, {
+          headers: headers,
+          mode: 'no-cors'
+         })
+          .then((res) => res.json())
+          .then(json => {
+            setApiData(json)
+            console.log(apiData)
+          })
+          .catch(console.error)
+      },
+      [headers, apiData]
+    )
   
   console.log(apiData)
 
